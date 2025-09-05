@@ -1,0 +1,93 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #1a1a2e; /* Dark blue background for the whole page */
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.game-canvas {
+    border: 4px solid #374151;
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    background-color: #f9fafb;
+    cursor: pointer;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 20px 25px rgba(0, 0, 0, 0.25);
+    max-width: 90%;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.floating-score {
+    position: fixed;  /* Change from absolute to fixed */
+    z-index: 1000;   /* Ensure floating scores are always visible */
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    animation: floatUp 1s ease-out forwards;
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+}
+
+/* Add padding to account for the UI */
+.canvas-container {
+    padding-top: 80px !important;  /* Override any existing padding */
+    height: calc(100vh - 80px) !important;
+    width: 50vw;
+    height: 100vh;
+    position: relative;
+}
+
+.canvas-container:first-child canvas {
+    background-image: url('assets/flappy-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.canvas-container:last-child canvas {
+    background-image: url('assets/pong-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+@media (max-width: 768px) {
+    .canvas-container {
+        padding-top: 100px !important;
+    }
+}
