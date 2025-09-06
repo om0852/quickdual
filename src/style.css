@@ -1,6 +1,6 @@
-body {
+.body {
     font-family: 'Inter', sans-serif;
-    background-color: #1a1a2e; /* Dark blue background for the whole page */
+    background-color: #1b1b80; /* Dark blue background for the whole page */
     overflow: hidden;
     margin: 0;
     padding: 0;
@@ -82,10 +82,15 @@ body {
 }
 
 .canvas-container:last-child canvas {
-    background-image: url('abstract-smooth-dark-blue-with-black-vignette-studio-well-use-as-background-business-report-digital-website-template-backdrop.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    /* Powerful gradient based on #4397c7 */
+    background: linear-gradient(to bottom, #6ec1f0, #4397c7, #1f5f8a);
+}
+
+/* Top and bottom black lines */
+.canvas-container:last-child canvas {
+    position: relative;
+    border-top: 20px solid black;
+    border-bottom: 20px solid black;
 }
 
 @media (max-width: 768px) {

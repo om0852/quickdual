@@ -25,7 +25,7 @@ let score = 0;
 let gameActive = false;
 let isPaused = false;
 let boxAppearTime = 0;
-const GAME_DURATION = 90000; // 90 seconds in milliseconds
+const GAME_DURATION = 120000; // 120 seconds in milliseconds
 let gameStartTime = 0;
 let timeRemaining = GAME_DURATION;
 let pauseStartTime = 0;
@@ -49,9 +49,9 @@ let flappyBird = {
 let pipes = [];
 
 // Ball Game Constants
-const BALL_RADIUS = 10;
-const PADDLE_WIDTH = 100;
-const PADDLE_HEIGHT = 10;
+const BALL_RADIUS = 25;
+const PADDLE_WIDTH = 150;
+const PADDLE_HEIGHT = 15;
 const BALL_SPEED = 5;
 const BALL_SPEED_INCREMENT = 0.1;
 
@@ -398,16 +398,76 @@ function initBallGame() {
 
 function drawBall() {
     reflexCtx.beginPath();
+
+    // Create a radial gradient for a 3D effect
+    const gradient = reflexCtx.createRadialGradient(
+        ball.x - BALL_RADIUS / 3, // gradient center X
+        ball.y - BALL_RADIUS / 3, // gradient center Y
+        BALL_RADIUS / 5,           // inner radius
+        ball.x, 
+        ball.y, 
+        BALL_RADIUS               // outer radius
+    );
+    gradient.addColorStop(0, '#ffffff'); // highlight
+    gradient.addColorStop(0.5, '#ebeb1eff'); // main color
+    gradient.addColorStop(1, '#d4d400'); // shadow color
+
+    reflexCtx.fillStyle = gradient;
     reflexCtx.arc(ball.x, ball.y, BALL_RADIUS, 0, Math.PI * 2);
-    reflexCtx.fillStyle = '#ebeb1eff';
     reflexCtx.fill();
+
+    // Optional subtle outline
+    reflexCtx.lineWidth = 2;
+    reflexCtx.strokeStyle = 'rgba(0,0,0,0.2)';
+    reflexCtx.stroke();
+
     reflexCtx.closePath();
 }
 
+
 function drawPaddle() {
-    reflexCtx.fillStyle = '#3b82f6';
-    reflexCtx.fillRect(paddle.x, paddle.y, PADDLE_WIDTH, PADDLE_HEIGHT);
+    const radius = 10; 
+    reflexCtx.beginPath();
+    reflexCtx.moveTo(paddle.x + radius, paddle.y);
+    reflexCtx.lineTo(paddle.x + PADDLE_WIDTH - radius, paddle.y);
+    reflexCtx.quadraticCurveTo(paddle.x + PADDLE_WIDTH, paddle.y, paddle.x + PADDLE_WIDTH, paddle.y + radius);
+    reflexCtx.lineTo(paddle.x + PADDLE_WIDTH, paddle.y + PADDLE_HEIGHT - radius);
+    reflexCtx.quadraticCurveTo(paddle.x + PADDLE_WIDTH, paddle.y + PADDLE_HEIGHT, paddle.x + PADDLE_WIDTH - radius, paddle.y + PADDLE_HEIGHT);
+    reflexCtx.lineTo(paddle.x + radius, paddle.y + PADDLE_HEIGHT);
+    reflexCtx.quadraticCurveTo(paddle.x, paddle.y + PADDLE_HEIGHT, paddle.x, paddle.y + PADDLE_HEIGHT - radius);
+    reflexCtx.lineTo(paddle.x, paddle.y + radius);
+    reflexCtx.quadraticCurveTo(paddle.x, paddle.y, paddle.x + radius, paddle.y);
+    reflexCtx.closePath();
+
+    // Gradient fill for premium ash-grey look
+    const gradient = reflexCtx.createLinearGradient(paddle.x, paddle.y, paddle.x, paddle.y + PADDLE_HEIGHT);
+    gradient.addColorStop(0, "#e0e0e0");  // light ash
+    gradient.addColorStop(0.5, "#b0b0b0"); // mid-tone
+    gradient.addColorStop(1, "#7a7a7a");  // darker ash
+    reflexCtx.fillStyle = gradient;
+    reflexCtx.fill();
+
+    // Subtle outline for depth
+    reflexCtx.lineWidth = 2;
+    reflexCtx.strokeStyle = "rgba(0,0,0,0.3)";
+    reflexCtx.stroke();
+
+    // Soft shadow for premium feel
+    reflexCtx.shadowColor = "rgba(0,0,0,0.25)";
+    reflexCtx.shadowBlur = 10;
+    reflexCtx.shadowOffsetY = 4;
+
+    // Fill & stroke again to apply shadow properly
+    reflexCtx.fill();
+    reflexCtx.stroke();
+
+    // Reset shadow so it doesn’t affect other drawings
+    reflexCtx.shadowColor = "transparent";
+    reflexCtx.shadowBlur = 0;
+    reflexCtx.shadowOffsetY = 0;
 }
+
+
 
 function updateBallGame() {
     paddle.x = Math.max(0, Math.min(reflexCanvas.width - PADDLE_WIDTH, mouseX - PADDLE_WIDTH / 2));
@@ -525,10 +585,10 @@ function gameLoop(timestamp) {
 }
 
 function startGame() {
-    if (playerNameInput.value.trim() === '') {
+    /* if (playerNameInput.value.trim() === '') {
         promptForNameAndStartGame();
         return;
-    }
+    } */
     
     resetGame();
     gameActive = true;
@@ -545,14 +605,15 @@ function startGame() {
     requestAnimationFrame(gameLoop);
 }
 
-function promptForNameAndStartGame() {
+/* function promptForNameAndStartGame() {
     modalTitle.textContent = "Enter Your Name";
     finalScoreDisplay.textContent = "Please enter your name to save your high score.";
     highScoresList.innerHTML = '';
     nameInputContainer.classList.remove('hidden');
     restartButton.textContent = "Continue";
     restartButton.onclick = startGame;
-}
+    }
+ */
 
 
 function resetGame() {
@@ -600,7 +661,6 @@ function endGame() {
     restartButton.textContent = "Save Score";
     restartButton.onclick = () => {
         saveHighScore(score);
-        startGame();
     };
 }
 
@@ -703,7 +763,7 @@ restartButton.addEventListener('click', () => {
 pauseButton.addEventListener('click', pauseGame);
 resumeButton.addEventListener('click', resumeGame);
 exitButton.addEventListener('click', exitGame);
-
+/* 
 toggleViewButton.addEventListener('click', () => {
     if (scoreboardView.classList.contains('hidden')) {
         menuView.classList.add('hidden');
@@ -715,7 +775,7 @@ toggleViewButton.addEventListener('click', () => {
         toggleViewButton.textContent = "View Scoreboard";
     }
 });
-
+ */
 
 window.addEventListener('resize', () => {
     flappyCanvas.width = flappyCanvas.offsetWidth;
