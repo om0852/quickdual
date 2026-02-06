@@ -40,30 +40,110 @@ export class Bird {
   }
 
   draw() {
-    this.ctx.fillStyle = this.isDead ? "#888" : "#FFD700";
-    this.ctx.shadowBlur = 10;
-    this.ctx.shadowColor = this.isDead ? "#444" : "#FFA500";
-    
-    // Draw bird as a circle
-    this.ctx.beginPath();
-    this.ctx.arc(this.x, this.y, FLAPPY.BIRD_SIZE / 2, 0, Math.PI * 2);
-    this.ctx.fill();
-    
-    // Draw eye
-    this.ctx.fillStyle = "#000";
-    this.ctx.shadowBlur = 0;
-    this.ctx.beginPath();
-    this.ctx.arc(this.x + 5, this.y - 3, 3, 0, Math.PI * 2);
-    this.ctx.fill();
-    
-    // Draw beak
-    this.ctx.fillStyle = "#FF6347";
-    this.ctx.beginPath();
-    this.ctx.moveTo(this.x + FLAPPY.BIRD_SIZE / 2, this.y);
-    this.ctx.lineTo(this.x + FLAPPY.BIRD_SIZE / 2 + 8, this.y - 3);
-    this.ctx.lineTo(this.x + FLAPPY.BIRD_SIZE / 2 + 8, this.y + 3);
-    this.ctx.closePath();
-    this.ctx.fill();
+    const ctx = this.ctx;
+    const pixelSize = 3;
+
+    const birdPixels = [
+      "............BBBBBBBBBBBB..........",
+      "............BBBBBBBBBBBB..........",
+      "........BBBBYYYYYYBBWWWWBB........",
+      "........BBBBYYYYYYBBWWWWBB........",
+      "......BBYYYYYYYYBBWWWWWWWWBB......",
+      "......BBYYYYYYYYBBWWWWWWWWBB......",
+      "..BBBBBBBBYYYYYYBBWWWWWWBBWWBB....",
+      "..BBBBBBBBYYYYYYBBWWWWWWBBWWBB....",
+      "BBLLLLLLLLBBYYYYBBWWWWWWBBWWBB....",
+      "BBLLLLLLLLBBYYYYBBWWWWWWBBWWBB....",
+      "BBLLLLLLLLLLBBYYYYBBWWWWWWWWBB....",
+      "BBLLLLLLLLLLBBYYYYBBWWWWWWWWBB....",
+      "BBYYLLLLLLYYBBYYYYYYBBBBBBBBBBBB..",
+      "BBYYLLLLLLYYBBYYYYYYBBBBBBBBBBBB..",
+      "..BBYYYYYYBBYYYYYYBBRRRRRRRRRRRRBB",
+      "..BBYYYYYYBBYYYYYYBBRRRRRRRRRRRRBB",
+      "....BBBBBBOOOOOOBBRRBBBBBBBBBBBB..",
+      "....BBBBBBOOOOOOBBRRBBBBBBBBBBBB..",
+      "....BBOOOOOOOOOOOOBBRRRRRRRRRRBB..",
+      "....BBOOOOOOOOOOOOBBRRRRRRRRRRBB..",
+      "......BBBBOOOOOOOOOOBBBBBBBBBB....",
+      "......BBBBOOOOOOOOOOBBBBBBBBBB....",
+      "..........BBBBBBBBBB..............",
+      "..........BBBBBBBBBB.............."
+    ];
+
+    const colors = {
+      Y: "#FFEB3B",
+      L: "#FFFFCC",
+      O: "#FFC107",
+      R: "#F44336",
+      W: "#FFFFFF",
+      B: "#000000",
+      ".": null
+    };
+
+    const rows = birdPixels.length;
+    const cols = birdPixels[0].length;
+
+    const totalW = cols * pixelSize;
+    const totalH = rows * pixelSize;
+
+    const startX = Math.round(this.x - totalW / 2);
+    const startY = Math.round(this.y - totalH / 2);
+
+    ctx.imageSmoothingEnabled = false;
+
+    // ---- Pass 1: outline ----
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        if (birdPixels[r][c] === ".") continue;
+
+        const neighbors = [
+          [r - 1, c],
+          [r + 1, c],
+          [r, c - 1],
+          [r, c + 1]
+        ];
+
+        let isEdge = false;
+        for (const [nr, nc] of neighbors) {
+          if (
+            nr < 0 ||
+            nc < 0 ||
+            nr >= rows ||
+            nc >= cols ||
+            birdPixels[nr][nc] === "."
+          ) {
+            isEdge = true;
+            break;
+          }
+        }
+
+        if (isEdge) {
+          ctx.fillStyle = "#000";
+          ctx.fillRect(
+            startX + c * pixelSize,
+            startY + r * pixelSize,
+            pixelSize,
+            pixelSize
+          );
+        }
+      }
+    }
+
+    // ---- Pass 2: colors ----
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const color = colors[birdPixels[r][c]];
+        if (!color) continue;
+
+        ctx.fillStyle = color;
+        ctx.fillRect(
+          startX + c * pixelSize,
+          startY + r * pixelSize,
+          pixelSize,
+          pixelSize
+        );
+      }
+    }
   }
 
   getBounds() {

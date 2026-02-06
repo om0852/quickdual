@@ -56,17 +56,26 @@ export class Ball {
       this.x <= paddle.x + REFLEX.PADDLE_WIDTH &&
       this.dy > 0
     ) {
-      // How far from paddle center (0 → 1)
-      const hitPos = (this.x - paddle.x) / REFLEX.PADDLE_WIDTH;
+      // Paddle center
+      const paddleCenter = paddle.x + REFLEX.PADDLE_WIDTH / 2;
 
-      // Map hit position to angle (-45° → +45°)
-      const angle = (hitPos - 0.5) * (Math.PI / 2);
+      // Distance from center (-1 to +1)
+      const relativeIntersect =
+      (this.x - paddleCenter) / (REFLEX.PADDLE_WIDTH / 2);
 
+      // Clamp for safety
+      const clamped = Math.max(-1, Math.min(1, relativeIntersect));
+
+      // Max bounce angle (75° like Breakout / Pong)
+      const maxAngle = (75 * Math.PI) / 180;
+
+      const angle = clamped * maxAngle;
       const speed = REFLEX.BALL_SPEED;
 
       this.dx = Math.sin(angle) * speed;
       this.dy = -Math.cos(angle) * speed;
 
+      // Prevent sticking
       this.y = paddleY - REFLEX.BALL_RADIUS;
     }
 
@@ -90,9 +99,9 @@ export class Ball {
   }
 
   draw() {
-    this.ctx.fillStyle = "#FF6347";
+    this.ctx.fillStyle = "#1f9dd7";
     this.ctx.shadowBlur = 15;
-    this.ctx.shadowColor = "#FF6347";
+    this.ctx.shadowColor = "#156887";
 
     this.ctx.beginPath();
     this.ctx.arc(this.x, this.y, REFLEX.BALL_RADIUS, 0, Math.PI * 2);

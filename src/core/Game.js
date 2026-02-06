@@ -21,6 +21,7 @@ export class Game {
   }
 
   start(now) {
+    this.loop.stop();
     this.score = 0;
     this.state = STATES.PLAYING;
     this.timer.start(now);

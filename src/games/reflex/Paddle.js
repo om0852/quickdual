@@ -13,19 +13,21 @@ export class Paddle {
   }
 
   update(mouseX) {
-    if (mouseX !== undefined) {
-      this.targetX = Math.max(
-        0,
-        Math.min(
-          this.canvas.width - REFLEX.PADDLE_WIDTH,
-          mouseX - REFLEX.PADDLE_WIDTH / 2
-        )
-      );
-    }
+    // Ignore invalid mouse values
+    if (typeof mouseX !== "number") return;
+
+    this.targetX = Math.max(
+      0,
+      Math.min(
+        this.canvas.width - REFLEX.PADDLE_WIDTH,
+        mouseX - REFLEX.PADDLE_WIDTH / 2
+      )
+    );
 
     // Smooth movement
     this.x += (this.targetX - this.x) * 0.2;
   }
+
 
   draw(ctx) {
     // Draw paddle shadow
