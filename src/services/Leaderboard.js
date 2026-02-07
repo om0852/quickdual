@@ -215,4 +215,6 @@ export class Leaderboard {
 }
 
 // Make leaderboard globally accessible
-window.leaderboard = null;
+if (typeof window !== 'undefined') {
+  window.leaderboard = null;
+}

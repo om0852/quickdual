@@ -5,8 +5,13 @@ const API_URL = '/api';
 
 class AuthService {
     constructor() {
-        this.token = localStorage.getItem('quickqual_token');
-        this.user = JSON.parse(localStorage.getItem('quickqual_user') || 'null');
+        if (typeof window !== 'undefined' && window.localStorage) {
+            this.token = localStorage.getItem('quickqual_token');
+            this.user = JSON.parse(localStorage.getItem('quickqual_user') || 'null');
+        } else {
+            this.token = null;
+            this.user = null;
+        }
     }
 
     isAuthenticated() {
@@ -74,15 +79,19 @@ class AuthService {
             name: userData.name,
             email: userData.email
         };
-        localStorage.setItem('quickqual_token', this.token);
-        localStorage.setItem('quickqual_user', JSON.stringify(this.user));
+        if (typeof window !== 'undefined' && window.localStorage) {
+            localStorage.setItem('quickqual_token', this.token);
+            localStorage.setItem('quickqual_user', JSON.stringify(this.user));
+        }
     }
 
     logout() {
         this.token = null;
         this.user = null;
-        localStorage.removeItem('quickqual_token');
-        localStorage.removeItem('quickqual_user');
+        if (typeof window !== 'undefined' && window.localStorage) {
+            localStorage.removeItem('quickqual_token');
+            localStorage.removeItem('quickqual_user');
+        }
     }
 
     async fetchWithAuth(url, options = {}) {
