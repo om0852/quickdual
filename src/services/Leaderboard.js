@@ -2,10 +2,7 @@
 // Falls back to localStorage if API is unavailable
 
 import { authService } from './AuthService.js';
-
-import config from '../config.js';
-
-const API_URL = config.API_URL;
+import { API_URL } from '../config.js';
 
 export class Leaderboard {
   constructor(game) {
@@ -22,41 +19,8 @@ export class Leaderboard {
 
     // Play again button
     document.getElementById('playAgainBtn').addEventListener('click', () => {
-      if (!authService.isAuthenticated()) {
-        alert('Please login to play again!');
-        window.location.reload();
-        return;
-      }
       this.hide();
-
-      // We need to trigger the pre-game flow again (name input -> countdown)
-      // Accessing the menu instance would be ideal, but for now, let's just reload 
-      // or we can implement a "restartFlow" method. 
-      // Actually, standard behavior for "Play Again" usually skips name input if same session.
-      // But adhering to "security" and "multiplayer" request:
-
-      // Let's redirect to menu's name input flow by reloading or manipulating DOM
-      // Simplest robust way: 
-      document.getElementById('game').classList.remove('active');
-      document.getElementById('menu').classList.add('active');
-      // Trigger start button click logic programmatically? Or just let user click start.
-      // Current implementation of game.start() bypasses name input if called directly.
-      // We should probably go back to menu or trigger name input.
-
-      // Let's go back to menu to ensure flow consistency
-      // document.getElementById('menu').classList.add('active');
-
-      // To support the "Multi-player per session" feature (clearing name input),
-      // "Play Again" should actually trigger the name input modal again.
-      // We need to access the Menu instance. Since Leaderboard doesn't have reference to Menu,
-      // we can trigger the Start Button click or similar.
-
-      // Better approach: Go back to menu and simulate start click
-      document.getElementById('game').classList.remove('active');
-      document.getElementById('menu').classList.add('active');
-
-      // Trigger the start button logic which checks auth and shows name input
-      document.getElementById('startBtn').click();
+      this.game.start(performance.now());
     });
 
     // Menu button
@@ -217,6 +181,4 @@ export class Leaderboard {
 }
 
 // Make leaderboard globally accessible
-if (typeof window !== 'undefined') {
-  window.leaderboard = null;
-}
+window.leaderboard = null;

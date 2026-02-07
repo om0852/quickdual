@@ -4,7 +4,6 @@ import { GameLoop } from "./GameLoop.js";
 import { FlappyGame } from "../games/flappy/FlappyGame.js";
 import { ReflexGame } from "../games/reflex/ReflexGame.js";
 import { GAME_DURATION } from "../utils/Constants.js";
-import { authService } from "../services/AuthService.js";
 
 export class Game {
   constructor() {
@@ -23,13 +22,6 @@ export class Game {
   }
 
   start(now) {
-    // Security check: must be logged in to play
-    if (!authService.isAuthenticated()) {
-      alert("Security Check Failed: You must be logged in to play!");
-      window.location.reload(); // Force reload to clear any invalid state
-      return;
-    }
-
     this.loop.stop();
     this.score = 0;
     this.difficultyMultiplier = 1.0;

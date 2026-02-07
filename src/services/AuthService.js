@@ -1,19 +1,12 @@
 // Authentication Service for QuickQual
 // Handles login, register, and token management
 
-import config from '../config.js';
-
-const API_URL = config.API_URL;
+const API_URL = 'http://localhost:3000/api';
 
 class AuthService {
     constructor() {
-        if (typeof window !== 'undefined' && window.localStorage) {
-            this.token = localStorage.getItem('quickqual_token');
-            this.user = JSON.parse(localStorage.getItem('quickqual_user') || 'null');
-        } else {
-            this.token = null;
-            this.user = null;
-        }
+        this.token = localStorage.getItem('quickqual_token');
+        this.user = JSON.parse(localStorage.getItem('quickqual_user') || 'null');
     }
 
     isAuthenticated() {
@@ -81,19 +74,15 @@ class AuthService {
             name: userData.name,
             email: userData.email
         };
-        if (typeof window !== 'undefined' && window.localStorage) {
-            localStorage.setItem('quickqual_token', this.token);
-            localStorage.setItem('quickqual_user', JSON.stringify(this.user));
-        }
+        localStorage.setItem('quickqual_token', this.token);
+        localStorage.setItem('quickqual_user', JSON.stringify(this.user));
     }
 
     logout() {
         this.token = null;
         this.user = null;
-        if (typeof window !== 'undefined' && window.localStorage) {
-            localStorage.removeItem('quickqual_token');
-            localStorage.removeItem('quickqual_user');
-        }
+        localStorage.removeItem('quickqual_token');
+        localStorage.removeItem('quickqual_user');
     }
 
     async fetchWithAuth(url, options = {}) {

@@ -58,9 +58,10 @@ export class Menu {
       this.show();
     });
 
-    // Leaderboard button (Global Rankings) is now a direct link in HTML
-
-    // Leaderboard close button
+    // Leaderboard button
+    document.getElementById('leaderboardBtn').addEventListener('click', () => {
+      this.showLeaderboard();
+    });
 
     // Leaderboard close button
     document.getElementById('leaderboardCloseBtn').addEventListener('click', () => {
@@ -70,6 +71,11 @@ export class Menu {
     // Login button
     document.getElementById('loginBtn').addEventListener('click', () => {
       this.showLogin();
+    });
+
+    // Register button
+    document.getElementById('registerBtn').addEventListener('click', () => {
+      this.showRegister();
     });
 
     // Logout button
@@ -84,9 +90,19 @@ export class Menu {
       await this.handleLogin();
     });
 
+    // Register form submit
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await this.handleRegister();
+    });
+
     // Cancel buttons
     document.getElementById('loginCancelBtn').addEventListener('click', () => {
       this.hideLogin();
+    });
+
+    document.getElementById('registerCancelBtn').addEventListener('click', () => {
+      this.hideRegister();
     });
   }
 
