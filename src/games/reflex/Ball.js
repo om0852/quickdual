@@ -24,9 +24,10 @@ export class Ball {
     this.floatingTexts = [];
   }
 
-  update(paddle) {
-    this.x += this.dx;
-    this.y += this.dy;
+  update(paddle, multiplier) {
+    const currentSpeedMultiplier = multiplier || 1;
+    this.x += this.dx * currentSpeedMultiplier;
+    this.y += this.dy * currentSpeedMultiplier;
 
     // Left / Right wall collision
     if (
@@ -61,7 +62,7 @@ export class Ball {
 
       // Distance from center (-1 to +1)
       const relativeIntersect =
-      (this.x - paddleCenter) / (REFLEX.PADDLE_WIDTH / 2);
+        (this.x - paddleCenter) / (REFLEX.PADDLE_WIDTH / 2);
 
       // Clamp for safety
       const clamped = Math.max(-1, Math.min(1, relativeIntersect));

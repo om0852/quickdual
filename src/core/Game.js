@@ -4,11 +4,13 @@ import { GameLoop } from "./GameLoop.js";
 import { FlappyGame } from "../games/flappy/FlappyGame.js";
 import { ReflexGame } from "../games/reflex/ReflexGame.js";
 import { GAME_DURATION } from "../utils/Constants.js";
+import { authService } from "../services/AuthService.js";
 
 export class Game {
   constructor() {
     this.state = STATES.MENU;
     this.score = 0;
+    this.difficultyMultiplier = 1.0;
 
     this.flappy = new FlappyGame(this);
     this.reflex = new ReflexGame(this);
@@ -21,8 +23,16 @@ export class Game {
   }
 
   start(now) {
+    // Security check: must be logged in to play
+    if (!authService.isAuthenticated()) {
+      alert("Security Check Failed: You must be logged in to play!");
+      window.location.reload(); // Force reload to clear any invalid state
+      return;
+    }
+
     this.loop.stop();
     this.score = 0;
+    this.difficultyMultiplier = 1.0;
     this.state = STATES.PLAYING;
     this.timer.start(now);
     this.flappy.reset();
@@ -55,7 +65,7 @@ export class Game {
 
     this.timer.update(now);
     this.updateHUD();
-    
+
     if (this.timer.isOver()) {
       this.end();
       return;
@@ -72,17 +82,23 @@ export class Game {
 
   addScore(value) {
     this.score = Math.max(0, this.score + value);
+
+    // Increase difficulty based on score
+    // 1.0 base difficulty + 0.05 per 100 points
+    // Cap at 3.0x speed
+    this.difficultyMultiplier = Math.min(3.0, 1 + (this.score / 2000));
+
     this.updateHUD();
   }
 
   updateHUD() {
     const scoreDisplay = document.getElementById('scoreDisplay');
     const timerDisplay = document.getElementById('timerDisplay');
-    
+
     if (scoreDisplay) {
       scoreDisplay.textContent = this.score;
     }
-    
+
     if (timerDisplay) {
       timerDisplay.textContent = this.timer.getTimeString();
     }

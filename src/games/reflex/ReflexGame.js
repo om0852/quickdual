@@ -16,7 +16,7 @@ export class ReflexGame {
     this.paddle = new Paddle(this.canvas);
     this.ball = new Ball(this.ctx, this.canvas, game);
 
-    // Handle mouse movement INSIDE the canvas
+    // Handle mouse movement ANYWHERE on the screen
     this.handleMouseMove = (e) => {
       // Get canvas position and size on the screen (CSS pixels)
       const rect = this.canvas.getBoundingClientRect();
@@ -25,23 +25,19 @@ export class ReflexGame {
       const scaleX = this.canvas.width / rect.width;
 
       // Mouse X relative to canvas
-      const x = (e.clientX - rect.left) * scaleX;
+      let x = (e.clientX - rect.left) * scaleX;
 
-      // Ignore movement if mouse goes outside the canvas
-      if (x < 0 || x > this.canvas.width) return;
+      // Clamp x to be within canvas bounds (so paddle doesn't get lost)
+      x = Math.max(0, Math.min(this.canvas.width, x));
 
       // Valid mouse position for paddle update
       this.mouseX = x;
     };
 
-    // Stop paddle movement when mouse leaves canvas
-    this.handleMouseLeave = () => {
-      this.mouseX = undefined;
-    };
+    // Attach mouse listener to WINDOW so control persists outside canvas
+    window.addEventListener("mousemove", this.handleMouseMove);
 
-    // Attach mouse listeners ONLY to the right canvas
-    this.canvas.addEventListener("mousemove", this.handleMouseMove);
-    this.canvas.addEventListener("mouseleave", this.handleMouseLeave);
+    // We don't need mouseleave anymore since we want control to persist
   }
 
   reset() {
@@ -58,7 +54,7 @@ export class ReflexGame {
     this.paddle.update(this.mouseX);
 
     // Update ball physics and collisions
-    this.ball.update(this.paddle);
+    this.ball.update(this.paddle, this.game.difficultyMultiplier);
   }
 
   render() {
@@ -77,7 +73,6 @@ export class ReflexGame {
 
   destroy() {
     // Clean up event listeners when game is destroyed
-    this.canvas.removeEventListener("mousemove", this.handleMouseMove);
-    this.canvas.removeEventListener("mouseleave", this.handleMouseLeave);
+    window.removeEventListener("mousemove", this.handleMouseMove);
   }
 }

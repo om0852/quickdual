@@ -1,9 +1,10 @@
 import { FLAPPY } from "../../utils/Constants.js";
 
 export class Bird {
-  constructor(ctx, canvas) {
+  constructor(ctx, canvas, game) {
     this.ctx = ctx;
     this.canvas = canvas;
+    this.game = game;
     this.reset();
   }
 
@@ -31,11 +32,22 @@ export class Bird {
       this.y = FLAPPY.BIRD_SIZE / 2;
       this.vy = 0;
     }
-    
+
     if (this.y > this.canvas.height - FLAPPY.BIRD_SIZE / 2) {
       this.y = this.canvas.height - FLAPPY.BIRD_SIZE / 2;
       this.vy = 0;
-      this.isDead = true;
+
+      if (!this.isDead) {
+        this.isDead = true;
+        this.game.addScore(-50);
+
+        // Add floating text
+        // We'll need to import FloatingText or just rely on the score update
+        // Since Bird doesn't handle FloatingText list easily without more refactoring,
+        // we'll just deduct score. 
+        // Ideally we should pass floatingTexts array or handle text spawning via game/pipes
+        // For now, score deduction is the priority.
+      }
     }
   }
 

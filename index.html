@@ -1,20 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QuickQual - Dual Reflex Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <div id="app">
     <!-- Menu Screen -->
     <div id="menu" class="screen active">
       <h1>QuickQual</h1>
       <p class="tagline">Test your multitasking skills!</p>
+
+      <!-- User Status -->
+      <div id="userStatus" class="user-status">
+        <p id="welcomeText">Welcome, Guest!</p>
+      </div>
+
       <button id="startBtn" class="btn-primary">Start Game</button>
       <button id="tutorialBtn" class="btn-secondary">How to Play</button>
-      <button id="leaderboardBtn" class="btn-secondary">Leaderboard</button>
+      <a href="leaderboard.html" class="btn-gold"
+        style="text-decoration: none; display: inline-block; text-align: center;">Global Rankings 🏆</a>
+
+      <div id="authButtons" class="auth-buttons">
+        <button id="loginBtn" class="btn-auth">Login</button>
+      </div>
+      <div id="logoutContainer" class="auth-buttons" style="display: none;">
+        <button id="logoutBtn" class="btn-logout">Logout</button>
+      </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="screen overlay">
+      <div class="modal auth-modal">
+        <h2>Login</h2>
+        <form id="loginForm">
+          <div class="form-group">
+            <input type="email" id="loginEmail" placeholder="Email" required>
+          </div>
+          <div class="form-group">
+            <input type="password" id="loginPassword" placeholder="Password" required>
+          </div>
+          <p id="loginError" class="error-text"></p>
+          <button type="submit" class="btn-primary">Login</button>
+          <button type="button" id="loginCancelBtn" class="btn-secondary">Cancel</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="screen overlay">
+      <div class="modal auth-modal">
+        <h2>Create Account</h2>
+        <form id="registerForm">
+          <div class="form-group">
+            <input type="text" id="registerName" placeholder="Your Name" required minlength="2">
+          </div>
+          <div class="form-group">
+            <input type="email" id="registerEmail" placeholder="Email" required>
+          </div>
+          <div class="form-group">
+            <input type="password" id="registerPassword" placeholder="Password (min 6 chars)" required minlength="6">
+          </div>
+          <p id="registerError" class="error-text"></p>
+          <button type="submit" class="btn-primary">Register</button>
+          <button type="button" id="registerCancelBtn" class="btn-secondary">Cancel</button>
+        </form>
+      </div>
     </div>
 
     <!-- Tutorial Screen -->
@@ -53,6 +113,9 @@
         <div class="hud-item">
           <span class="hud-label">Time:</span>
           <span id="timerDisplay" class="hud-value">2:00</span>
+        </div>
+        <div class="hud-item hud-player">
+          <span id="hudPlayerName"></span>
         </div>
         <button id="pauseBtn" class="btn-icon">⏸</button>
       </div>
@@ -96,6 +159,27 @@
       </div>
     </div>
 
+    <!-- Name Input Modal -->
+    <div id="nameInputModal" class="screen overlay">
+      <div class="modal auth-modal">
+        <h2>Enter Player Name</h2>
+        <form id="nameInputForm">
+          <div class="form-group">
+            <input type="text" id="gamePlayerName" placeholder="Your Name" required minlength="2" maxlength="20">
+          </div>
+          <button type="submit" class="btn-primary">Start Game</button>
+          <button type="button" id="nameInputCancelBtn" class="btn-secondary">Cancel</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Countdown Overlay -->
+    <div id="countdownOverlay" class="screen overlay" style="background: rgba(0,0,0,0.5);">
+      <div class="countdown-container">
+        <span id="countdownNumber">5</span>
+      </div>
+    </div>
+
     <!-- Leaderboard Screen -->
     <div id="leaderboard" class="screen overlay">
       <div class="modal leaderboard-modal">
@@ -110,4 +194,5 @@
 
   <script type="module" src="src/main.js"></script>
 </body>
+
 </html>

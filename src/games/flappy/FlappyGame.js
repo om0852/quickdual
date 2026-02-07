@@ -8,7 +8,7 @@ export class FlappyGame {
     this.ctx = canvas.getContext("2d");
     this.game = game;
 
-    this.bird = new Bird(this.ctx, canvas);
+    this.bird = new Bird(this.ctx, this.canvas, game);
     this.pipes = new Pipes(this.ctx, canvas, game);
 
     // Event listener for flapping
@@ -30,7 +30,7 @@ export class FlappyGame {
 
   update(dt) {
     this.bird.update();
-    this.pipes.update(this.bird);
+    this.pipes.update(this.bird, this.game.difficultyMultiplier);
 
     // Game-over handling
     if (this.bird.isDead) {
