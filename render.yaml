@@ -2,7 +2,7 @@ services:
   - type: web
     name: quickqual-game
     env: node
-    buildCommand: cd server && npm install
+    buildCommand: ./render-build.sh
     startCommand: cd server && node index.js
     envVars:
       - key: PORT
