@@ -2,7 +2,7 @@
   "name": "quickqual",
   "version": "1.0.0",
   "description": "A dual-window reflex and coordination game combining Flappy Bird and Pong-style gameplay",
-  "main": "src/main.js",
+  "main": "server/index.js",
   "scripts": {
     "start": "cd server && node index.js",
     "build": "cd server && npm install"
