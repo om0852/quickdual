@@ -1,7 +1,7 @@
 // Authentication Service for QuickQual
 // Handles login, register, and token management
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'https://quickdual.onrender.com/api';
 
 class AuthService {
     constructor() {

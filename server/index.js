@@ -6,12 +6,16 @@ const connectDB = require('./config/db');
 // Import routes
 const authRoutes = require('./routes/auth');
 const scoreRoutes = require('./routes/scores');
+const initCronJobs = require('./services/cronService');
 
 // Initialize express
 const app = express();
 
 // Connect to MongoDB
 connectDB();
+
+// Initialize Cron Jobs
+initCronJobs();
 
 // Middleware
 app.use(cors());
