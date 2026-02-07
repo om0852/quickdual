@@ -3,7 +3,9 @@
 
 import { authService } from './AuthService.js';
 
-const API_URL = '/api';
+import config from '../config.js';
+
+const API_URL = config.API_URL;
 
 export class Leaderboard {
   constructor(game) {

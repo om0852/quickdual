@@ -1,7 +1,9 @@
 // Authentication Service for QuickQual
 // Handles login, register, and token management
 
-const API_URL = '/api';
+import config from '../config.js';
+
+const API_URL = config.API_URL;
 
 class AuthService {
     constructor() {
