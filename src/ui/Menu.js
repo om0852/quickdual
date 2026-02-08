@@ -7,7 +7,6 @@ export class Menu {
     this.tutorialScreen = document.getElementById('tutorial');
     this.leaderboardScreen = document.getElementById('leaderboard');
     this.loginModal = document.getElementById('loginModal');
-    this.registerModal = document.getElementById('registerModal');
 
     this.setupEventListeners();
     this.updateAuthUI();
@@ -15,9 +14,12 @@ export class Menu {
 
   setupEventListeners() {
     // Start button - check auth first
-    document.getElementById('startBtn').addEventListener('click', () => {
+    const startBtn = document.getElementById('startBtn');
+    startBtn.addEventListener('click', () => {
+      console.log('Start button clicked');
       if (!authService.isAuthenticated()) {
-        alert('Please login or register to play the game!');
+        console.log('User not authenticated, showing login');
+        alert('Please login to play the game!');
         this.showLogin();
         return;
       }
@@ -59,54 +61,61 @@ export class Menu {
     });
 
     // Leaderboard button
-    document.getElementById('leaderboardBtn').addEventListener('click', () => {
-      this.showLeaderboard();
-    });
+    const leaderboardBtn = document.getElementById('leaderboardBtn');
+    if (leaderboardBtn) {
+      leaderboardBtn.addEventListener('click', () => {
+        this.showLeaderboard();
+      });
+    }
 
     // Leaderboard close button
-    document.getElementById('leaderboardCloseBtn').addEventListener('click', () => {
-      this.hideLeaderboard();
-    });
+    const leaderboardCloseBtn = document.getElementById('leaderboardCloseBtn');
+    if (leaderboardCloseBtn) {
+      leaderboardCloseBtn.addEventListener('click', () => {
+        this.hideLeaderboard();
+      });
+    }
 
     // Login button
-    document.getElementById('loginBtn').addEventListener('click', () => {
-      this.showLogin();
-    });
-
-    // Register button
-    document.getElementById('registerBtn').addEventListener('click', () => {
-      this.showRegister();
-    });
+    const loginBtn = document.getElementById('loginBtn');
+    if (loginBtn) {
+      loginBtn.addEventListener('click', () => {
+        console.log('Login button clicked');
+        this.showLogin();
+      });
+    }
 
     // Logout button
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      authService.logout();
-      this.updateAuthUI();
-    });
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        console.log('Logout button clicked');
+        authService.logout();
+        console.log('User logged out, updating UI...');
+        this.updateAuthUI();
+      });
+    }
 
     // Login form submit
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      await this.handleLogin();
-    });
-
-    // Register form submit
-    document.getElementById('registerForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      await this.handleRegister();
-    });
-
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        console.log('Login form submitted');
+        await this.handleLogin();
+      });
+    }
     // Cancel buttons
-    document.getElementById('loginCancelBtn').addEventListener('click', () => {
-      this.hideLogin();
-    });
-
-    document.getElementById('registerCancelBtn').addEventListener('click', () => {
-      this.hideRegister();
-    });
+    const loginCancelBtn = document.getElementById('loginCancelBtn');
+    if (loginCancelBtn) {
+      loginCancelBtn.addEventListener('click', () => {
+        this.hideLogin();
+      });
+    }
   }
 
   showNameInput() {
+    console.log('Showing name input');
     const nameInput = document.getElementById('gamePlayerName');
     nameInput.value = ''; // Always clear input for new player
     document.getElementById('nameInputModal').classList.add('active');
@@ -146,45 +155,59 @@ export class Menu {
     const errorEl = document.getElementById('loginError');
 
     try {
-      errorEl.textContent = '';
-      await authService.login(email, password);
+      console.log('Attempting login...');
+      errorEl.textContent = 'Logging in...';
+      const user = await authService.login(email, password);
+      console.log('Login successful, user:', user);
+
       this.hideLogin();
+      console.log('Login modal hidden, updating UI...');
       this.updateAuthUI();
     } catch (error) {
+      console.error('Login error:', error);
       errorEl.textContent = error.message || 'Login failed';
     }
   }
 
-  async handleRegister() {
-    const name = document.getElementById('registerName').value;
-    const email = document.getElementById('registerEmail').value;
-    const password = document.getElementById('registerPassword').value;
-    const errorEl = document.getElementById('registerError');
-
-    try {
-      errorEl.textContent = '';
-      await authService.register(name, email, password);
-      this.hideRegister();
-      this.updateAuthUI();
-    } catch (error) {
-      errorEl.textContent = error.message || 'Registration failed';
-    }
-  }
-
   updateAuthUI() {
+    console.log('updateAuthUI called');
     const user = authService.getUser();
+    console.log('Current user state:', user);
+
     const welcomeText = document.getElementById('welcomeText');
     const authButtons = document.getElementById('authButtons');
     const logoutContainer = document.getElementById('logoutContainer');
 
+    if (!welcomeText || !authButtons || !logoutContainer) {
+      console.error('Critical UI elements missing in updateAuthUI');
+      return;
+    }
+
     if (user) {
+      console.log('Switching to Logged In view');
       welcomeText.textContent = `Welcome, ${user.name}!`;
       authButtons.style.display = 'none';
       logoutContainer.style.display = 'flex';
+
+      // Update start button text/state if needed
+      const startBtn = document.getElementById('startBtn');
+      if (startBtn) {
+        startBtn.textContent = "Start Game";
+        startBtn.classList.remove('btn-disabled');
+        startBtn.classList.add('btn-primary');
+      }
     } else {
-      welcomeText.textContent = 'Welcome, Guest!';
+      console.log('Switching to Guest view');
+      welcomeText.textContent = 'Welcome, Guest! Please Login to Play';
       authButtons.style.display = 'flex';
       logoutContainer.style.display = 'none';
+
+      // Update start button to indicate login needed
+      const startBtn = document.getElementById('startBtn');
+      if (startBtn) {
+        startBtn.textContent = "Login to Start";
+        startBtn.classList.add('btn-disabled');
+      }
     }
   }
 
@@ -197,23 +220,22 @@ export class Menu {
   }
 
   showLogin() {
-    this.loginModal.classList.add('active');
-    document.getElementById('loginError').textContent = '';
-    document.getElementById('loginForm').reset();
+    console.log('Showing login modal');
+    if (this.loginModal) {
+      this.loginModal.classList.add('active');
+      const errorEl = document.getElementById('loginError');
+      if (errorEl) errorEl.textContent = '';
+      const form = document.getElementById('loginForm');
+      if (form) form.reset();
+    } else {
+      console.error('Login modal element not found');
+    }
   }
 
   hideLogin() {
-    this.loginModal.classList.remove('active');
-  }
-
-  showRegister() {
-    this.registerModal.classList.add('active');
-    document.getElementById('registerError').textContent = '';
-    document.getElementById('registerForm').reset();
-  }
-
-  hideRegister() {
-    this.registerModal.classList.remove('active');
+    if (this.loginModal) {
+      this.loginModal.classList.remove('active');
+    }
   }
 
   show() {

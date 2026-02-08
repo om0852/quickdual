@@ -55,4 +55,18 @@ Scroll down to "Environment Variables" and add these keys (copy from your `.env`
    ```javascript
    export const API_URL = 'https://quickqual-api.onrender.com/api';
    ```
-3. Save and refresh your game. It is now connected to the cloud! ☁️
+   ```
+58: 3. Save and refresh your game. It is now connected to the cloud! ☁️
+59: 
+60: ## Step 6: Deploy Frontend (Optional)
+61: You can host the frontend for free on Vercel, Netlify, or GitHub Pages.
+62: 
+63: ### Option A: Vercel (Recommended)
+64: 1. Install Vercel CLI: `npm i -g vercel`
+65: 2. Run `vercel` in the project root.
+66: 3. Follow the prompts (Keep default settings).
+67: 4. Done! You'll get a URL like `https://quickqual.vercel.app`.
+68: 
+69: ### Option B: Netlify
+70: 1. Drag and drop your project folder to [app.netlify.com/drop](https://app.netlify.com/drop).
+71: 2. Done!

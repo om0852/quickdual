@@ -83,6 +83,7 @@ body::before {
 .screen.active {
   display: flex;
   animation: fadeIn 0.5s ease;
+  z-index: 50; /* Ensure active screen is above others */
 }
 
 .screen.overlay {
@@ -94,6 +95,13 @@ body::before {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Disabled Button info */
+.btn-disabled {
+  opacity: 0.6;
+  cursor: not-allowed !important;
+  filter: grayscale(0.8);
 }
 
 /* =====================

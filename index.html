@@ -33,7 +33,6 @@
       <!-- Auth buttons -->
       <div id="authButtons" class="auth-buttons">
         <button id="loginBtn" class="btn-auth">Login</button>
-        <button id="registerBtn" class="btn-auth">Register</button>
       </div>
       <div id="logoutContainer" class="auth-buttons" style="display: none;">
         <button id="logoutBtn" class="btn-logout">Logout</button>
@@ -54,27 +53,6 @@
           <p id="loginError" class="error-text"></p>
           <button type="submit" class="btn-primary">Login</button>
           <button type="button" id="loginCancelBtn" class="btn-secondary">Cancel</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Register Modal -->
-    <div id="registerModal" class="screen overlay">
-      <div class="modal auth-modal">
-        <h2>Create Account</h2>
-        <form id="registerForm">
-          <div class="form-group">
-            <input type="text" id="registerName" placeholder="Your Name" required minlength="2">
-          </div>
-          <div class="form-group">
-            <input type="email" id="registerEmail" placeholder="Email" required>
-          </div>
-          <div class="form-group">
-            <input type="password" id="registerPassword" placeholder="Password (min 6 chars)" required minlength="6">
-          </div>
-          <p id="registerError" class="error-text"></p>
-          <button type="submit" class="btn-primary">Register</button>
-          <button type="button" id="registerCancelBtn" class="btn-secondary">Cancel</button>
         </form>
       </div>
     </div>
