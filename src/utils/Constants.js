@@ -1,8 +1,8 @@
 export const GAME_DURATION = 120000; // 2 minutes in milliseconds
 
 export const FLAPPY = {
-  GRAVITY: 0.1,
-  JUMP: -3,
+  GRAVITY: 0.125,
+  JUMP: -2.25,
   PIPE_SPEED: 3,
   PIPE_GAP: 250,
   PIPE_WIDTH: 80,
@@ -12,7 +12,7 @@ export const FLAPPY = {
 
 export const REFLEX = {
   BALL_RADIUS: 15,
-  BALL_SPEED: 5,
+  BALL_SPEED: 4,
   PADDLE_WIDTH: 120,
   PADDLE_HEIGHT: 15
 };

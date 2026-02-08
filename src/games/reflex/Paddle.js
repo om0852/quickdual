@@ -12,7 +12,8 @@ export class Paddle {
     this.targetX = this.x;
   }
 
-  update(mouseX) {
+  update(dt, mouseX) {
+    const timeScale = dt / 16.666;
     // Ignore invalid mouse values
     if (typeof mouseX !== "number") return;
 
@@ -25,7 +26,7 @@ export class Paddle {
     );
 
     // Smooth movement
-    this.x += (this.targetX - this.x) * 0.2;
+    this.x += (this.targetX - this.x) * 0.2 * timeScale;
   }
 
 
@@ -40,15 +41,19 @@ export class Paddle {
     );
 
     // Draw paddle
+    // Enable glow for paddle
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = "#00F3FF"; // Cyan glow
+
     const gradient = ctx.createLinearGradient(
       this.x,
       0,
       this.x + REFLEX.PADDLE_WIDTH,
       0
     );
-    gradient.addColorStop(0, "#2196F3");
-    gradient.addColorStop(0.5, "#42A5F5");
-    gradient.addColorStop(1, "#2196F3");
+    gradient.addColorStop(0, "#00E5FF"); // Bright Cyan
+    gradient.addColorStop(0.5, "#E0F7FA"); // Almost White center
+    gradient.addColorStop(1, "#00E5FF");
 
     ctx.fillStyle = gradient;
     ctx.fillRect(
@@ -57,6 +62,9 @@ export class Paddle {
       REFLEX.PADDLE_WIDTH,
       REFLEX.PADDLE_HEIGHT
     );
+
+    // Reset shadow for other elements
+    ctx.shadowBlur = 0;
 
     // Draw highlight
     ctx.fillStyle = "rgba(255, 255, 255, 0.3)";

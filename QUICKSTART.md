@@ -1,12 +1,12 @@
-# QuickQual - Quick Start Guide
+# QuickDual - Quick Start Guide
 
 ## 🚀 Getting Started in 3 Steps
 
 ### Step 1: Extract the Files
-Extract the `quickqual` folder to your computer.
+Extract the `quickdual` folder to your computer.
 
 ### Step 2: Start a Local Server
-Open your terminal/command prompt in the `quickqual` folder and run one of these commands:
+Open your terminal/command prompt in the `quickdual` folder and run one of these commands:
 
 **Using Python:**
 ```bash

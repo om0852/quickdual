@@ -15,7 +15,8 @@ export class Pipes {
     this.floatingTexts = [];
   }
 
-  update(bird, multiplier) {
+  update(dt, bird, multiplier) {
+    const timeScale = dt / 16.666;
     // Spawn new pipes
     if (
       this.pipes.length === 0 ||
@@ -35,7 +36,7 @@ export class Pipes {
 
     // Update pipes
     this.pipes.forEach(p => {
-      p.x -= FLAPPY.PIPE_SPEED * (multiplier || 1);
+      p.x -= FLAPPY.PIPE_SPEED * (multiplier || 1) * timeScale;
 
       // Check if bird passed the pipe
       if (!p.passed && p.x + FLAPPY.PIPE_WIDTH < bird.x) {
@@ -60,9 +61,9 @@ export class Pipes {
           // Check if bird hit top or bottom pipe
           if (birdBounds.y < p.top || birdBounds.y + birdBounds.height > p.bottom) {
             bird.isDead = true;
-            this.game.addScore(-50);
+            this.game.addScore(-80);
             this.floatingTexts.push(
-              new FloatingText(this.ctx, bird.x, bird.y, "-50", "#F44336")
+              new FloatingText(this.ctx, bird.x, bird.y, "-80", "#F44336")
             );
           }
         }

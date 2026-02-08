@@ -24,10 +24,11 @@ export class Ball {
     this.floatingTexts = [];
   }
 
-  update(paddle, multiplier) {
+  update(dt, paddle, multiplier) {
+    const timeScale = dt / 16.666;
     const currentSpeedMultiplier = multiplier || 1;
-    this.x += this.dx * currentSpeedMultiplier;
-    this.y += this.dy * currentSpeedMultiplier;
+    this.x += this.dx * currentSpeedMultiplier * timeScale;
+    this.y += this.dy * currentSpeedMultiplier * timeScale;
 
     // Left / Right wall collision
     if (
@@ -82,13 +83,13 @@ export class Ball {
 
     // Ball fell below screen
     if (this.y - REFLEX.BALL_RADIUS > this.canvas.height) {
-      this.game.addScore(-100);
+      this.game.addScore(-80);
       this.floatingTexts.push(
         new FloatingText(
           this.ctx,
           this.canvas.width / 2,
           this.canvas.height / 2,
-          "-100",
+          "-80",
           "#F44336"
         )
       );
@@ -100,9 +101,9 @@ export class Ball {
   }
 
   draw() {
-    this.ctx.fillStyle = "#1f9dd7";
-    this.ctx.shadowBlur = 15;
-    this.ctx.shadowColor = "#156887";
+    this.ctx.fillStyle = "#FFEB3B"; // Neon Yellow
+    this.ctx.shadowBlur = 20;
+    this.ctx.shadowColor = "#FFC107"; // Amber glow
 
     this.ctx.beginPath();
     this.ctx.arc(this.x, this.y, REFLEX.BALL_RADIUS, 0, Math.PI * 2);

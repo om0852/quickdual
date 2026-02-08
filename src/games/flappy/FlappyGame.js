@@ -29,8 +29,8 @@ export class FlappyGame {
 
 
   update(dt) {
-    this.bird.update();
-    this.pipes.update(this.bird, this.game.difficultyMultiplier);
+    this.bird.update(dt);
+    this.pipes.update(dt, this.bird, this.game.difficultyMultiplier);
 
     // Game-over handling
     if (this.bird.isDead) {

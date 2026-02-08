@@ -1,12 +1,12 @@
-// Authentication Service for QuickQual
+// Authentication Service for QuickDual
 // Handles login, register, and token management
 
 const API_URL = 'https://quickdual.onrender.com/api';
 
 class AuthService {
     constructor() {
-        this.token = localStorage.getItem('quickqual_token');
-        this.user = JSON.parse(localStorage.getItem('quickqual_user') || 'null');
+        this.token = localStorage.getItem('quickdual_token');
+        this.user = JSON.parse(localStorage.getItem('quickdual_user') || 'null');
     }
 
     isAuthenticated() {
@@ -74,15 +74,15 @@ class AuthService {
             name: userData.name,
             email: userData.email
         };
-        localStorage.setItem('quickqual_token', this.token);
-        localStorage.setItem('quickqual_user', JSON.stringify(this.user));
+        localStorage.setItem('quickdual_token', this.token);
+        localStorage.setItem('quickdual_user', JSON.stringify(this.user));
     }
 
     logout() {
         this.token = null;
         this.user = null;
-        localStorage.removeItem('quickqual_token');
-        localStorage.removeItem('quickqual_user');
+        localStorage.removeItem('quickdual_token');
+        localStorage.removeItem('quickdual_user');
     }
 
     async fetchWithAuth(url, options = {}) {

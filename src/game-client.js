@@ -30,6 +30,6 @@ if (typeof document !== 'undefined') {
     // Show menu initially
     menu.show();
 
-    console.log('QuickQual initialized successfully!');
+    console.log('QuickDual initialized successfully!');
   });
 }

@@ -58,6 +58,11 @@ export class Game {
     this.timer.update(now);
     this.updateHUD();
 
+    // Time-based difficulty: Increase speed by 30% every 15 seconds
+    const elapsed = this.timer.duration - this.timer.remaining;
+    const intervals = Math.floor(elapsed / 15000);
+    this.difficultyMultiplier = Math.pow(1.3, intervals);
+
     if (this.timer.isOver()) {
       this.end();
       return;
@@ -75,10 +80,7 @@ export class Game {
   addScore(value) {
     this.score = Math.max(0, this.score + value);
 
-    // Increase difficulty based on score
-    // 1.0 base difficulty + 0.05 per 100 points
-    // Cap at 3.0x speed
-    this.difficultyMultiplier = Math.min(3.0, 1 + (this.score / 2000));
+    // Difficulty is now handled by time in update()
 
     this.updateHUD();
   }

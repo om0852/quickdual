@@ -21,11 +21,12 @@ export class Bird {
     }
   }
 
-  update() {
+  update(dt) {
     if (this.isDead) return;
 
-    this.vy += FLAPPY.GRAVITY;
-    this.y += this.vy;
+    const timeScale = dt / 16.666;
+    this.vy += FLAPPY.GRAVITY * timeScale;
+    this.y += this.vy * timeScale;
 
     // Check boundaries
     if (this.y < FLAPPY.BIRD_SIZE / 2) {
@@ -39,7 +40,7 @@ export class Bird {
 
       if (!this.isDead) {
         this.isDead = true;
-        this.game.addScore(-50);
+        this.game.addScore(-80);
 
         // Add floating text
         // We'll need to import FloatingText or just rely on the score update

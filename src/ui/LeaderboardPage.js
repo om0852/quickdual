@@ -20,7 +20,7 @@ async function loadLeaderboard() {
         console.error('Failed to fetch leaderboard:', error);
 
         // Fallback to local
-        const localScores = JSON.parse(localStorage.getItem('quickqual_scores') || '[]');
+        const localScores = JSON.parse(localStorage.getItem('quickdual_scores') || '[]');
         if (localScores.length > 0) {
             renderScores(localScores.map(s => ({ playerName: s.name, score: s.score })));
 

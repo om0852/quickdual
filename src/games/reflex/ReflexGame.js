@@ -51,20 +51,39 @@ export class ReflexGame {
 
   update(dt) {
     // Update paddle using mouse X (if defined)
-    this.paddle.update(this.mouseX);
+    this.paddle.update(dt, this.mouseX);
 
     // Update ball physics and collisions
-    this.ball.update(this.paddle, this.game.difficultyMultiplier);
+    this.ball.update(dt, this.paddle, this.game.difficultyMultiplier);
   }
 
   render() {
     // Clear canvas with vertical gradient background
+    // Clear canvas with deep space background
     const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
-    gradient.addColorStop(0, "#141427");
-    gradient.addColorStop(1, "#1f3061");
+    gradient.addColorStop(0, "#0b0b15"); // Almost black
+    gradient.addColorStop(1, "#1a1a2e"); // Deep Blue-Purple
 
     this.ctx.fillStyle = gradient;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+    // Subtle grid overlay for depth
+    this.ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
+    this.ctx.lineWidth = 1;
+    this.ctx.beginPath();
+
+    // Vertical lines
+    for (let x = 0; x <= this.canvas.width; x += 40) {
+      this.ctx.moveTo(x, 0);
+      this.ctx.lineTo(x, this.canvas.height);
+    }
+
+    // Horizontal lines
+    for (let y = 0; y <= this.canvas.height; y += 40) {
+      this.ctx.moveTo(0, y);
+      this.ctx.lineTo(this.canvas.width, y);
+    }
+    this.ctx.stroke();
 
     // Draw game elements
     this.ball.draw();

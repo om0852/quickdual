@@ -1,7 +1,7 @@
 {
-    "name": "quickqual-server",
+    "name": "quickdual-server",
     "version": "1.0.0",
-    "description": "Backend API for QuickQual game",
+    "description": "Backend API for QuickDual game",
     "main": "index.js",
     "scripts": {
         "start": "node index.js",

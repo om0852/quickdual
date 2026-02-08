@@ -129,11 +129,11 @@ export class Leaderboard {
     scores.push({ name, score, time: Date.now() });
     scores.sort((a, b) => b.score - a.score);
     const topScores = scores.slice(0, 10);
-    localStorage.setItem('quickqual_scores', JSON.stringify(topScores));
+    localStorage.setItem('quickdual_scores', JSON.stringify(topScores));
   }
 
   getScoresLocal() {
-    const stored = localStorage.getItem('quickqual_scores');
+    const stored = localStorage.getItem('quickdual_scores');
     return stored ? JSON.parse(stored) : [];
   }
 

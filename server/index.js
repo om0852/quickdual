@@ -27,7 +27,7 @@ app.use('/api/scores', scoreRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok', message: 'QuickQual API is running' });
+    res.json({ status: 'ok', message: 'QuickDual API is running' });
 });
 
 // Error handling middleware

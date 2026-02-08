@@ -1,10 +1,10 @@
-# QuickQual - Dual Reflex Game
+# QuickDual - Dual Reflex Game
 
 A challenging multitasking game that tests your hand-eye coordination, focus, and reaction speed by having you play two games simultaneously!
 
 ## 🎮 Game Description
 
-QuickQual combines two classic games:
+QuickDual combines two classic games:
 - **Flappy Bird** (Left): Navigate a bird through pipes using the SPACE key
 - **Reflex Ball** (Right): Keep a bouncing ball from falling using your mouse to control the paddle
 
@@ -25,7 +25,7 @@ Players must manage both games at the same time for 2 minutes while trying to ma
 ## 📁 Project Structure
 
 ```
-quickqual/
+quickdual/
 ├── index.html              # Main HTML file
 ├── style.css               # Stylesheet
 ├── src/
@@ -43,7 +43,7 @@ quickqual/
 │   │   └── reflex/
 │   │       ├── ReflexGame.js
 │   │       ├── Ball.js
-│   │       └── Paddle.js
+│   │       ├── Paddle.js
 │   ├── ui/
 │   │   ├── Menu.js
 │   │   ├── PauseMenu.js
@@ -87,7 +87,7 @@ Then open your browser to `http://localhost:8000`
 1. Push this project to a GitHub repository
 2. Go to Settings > Pages
 3. Select the main branch as source
-4. Your game will be available at `https://yourusername.github.io/quickqual`
+4. Your game will be available at `https://yourusername.github.io/quickdual`
 
 ## 🎨 Features
 
@@ -159,4 +159,4 @@ This project is open source and available for educational purposes.
 
 ---
 
-Enjoy playing QuickQual! Can you survive the full 2 minutes? 🎮
+Enjoy playing QuickDual! Can you survive the full 2 minutes? 🎮

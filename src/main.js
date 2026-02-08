@@ -29,5 +29,5 @@ document.addEventListener('DOMContentLoaded', () => {
   // Show menu initially
   menu.show();
 
-  console.log('QuickQual initialized successfully!');
+  console.log('QuickDual initialized successfully!');
 });

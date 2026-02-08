@@ -1,5 +1,5 @@
 {
-  "name": "quickqual",
+  "name": "quickdual",
   "version": "1.0.0",
   "description": "A dual-window reflex and coordination game combining Flappy Bird and Pong-style gameplay",
   "main": "src/main.js",
