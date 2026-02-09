@@ -7,7 +7,6 @@ exports.getLeaderboard = async (req, res) => {
     try {
         const scores = await Score.find()
             .sort({ score: -1 })
-            .limit(10)
             .select('playerName score createdAt');
 
         res.json({
